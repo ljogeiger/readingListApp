@@ -1,0 +1,32 @@
+{% extends "search.html" %}
+{% block results %}
+<div class="results">
+    {% if api_data["totalItems"] > 0 %}
+        <ul>
+        {% for book in api_data["items"] %}
+                <li>
+                    {% if book.accessInfo.webReaderLink|length > 0 %}
+                       <a href={{ book.accessInfo.webReaderLink }}><h3>{{ book.volumeInfo.title }}</h3></a>
+                    {% else %}
+                        <h3> {{ book.volumeInfo.title }}</h3>
+                    {% endif %}
+                    <h5>
+                        {% if book.volumeInfo.authors|length > 0 %}
+                                {% for author in book.volumeInfo.authors %}
+                                        <ul>{{ author }}</ul>
+                                {% endfor %}
+                        {% else %}
+                                <ul>No authors listed</ul>
+                        {% endif %}
+                    </h5>    
+                    <a href="/favorite/{{ book.id }}">Add to favorites</a>
+                </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Sorry! No books found :(</p>
+    {% endif %}
+</div>       
+{% endblock %}         
+
+
